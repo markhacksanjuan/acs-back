@@ -4,17 +4,17 @@ const { Schema, model } = mongoose
 const candidatoSchema = new Schema(
     {
         dni: {
-            type: String,
-            required: true
+            type: String
         },
         nombre: String,
         apellido1: String,
         apellido2: String,
         email: String,
-        nacimiento: Date,
+        nacimiento: String,
         sexo: String,
         pais: String,
         provincia: String,
+        direccion: String,
         fotografiaName: String,
         fotografiaPath: String,
         estudios: {
@@ -40,9 +40,14 @@ const candidatoSchema = new Schema(
         empresaActual: String,
         puestoActual: String,
         fechaContacto: [Date],
-        puntuacionACS: Number,
+        puntuacionACS: String,
         fechaPuntuacion: Date,
-        comentariosCandidato: String
+        comentariosCandidato: String,
+        cpostal: String,
+        telefono: String,
+        movil: String,
+        estudiosOld: String,
+        origen: String
     },
     {
         timestamps: true

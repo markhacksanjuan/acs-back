@@ -170,6 +170,15 @@ export const deleteCV = async (req, res, next) => {
         console.error(e)
     }
 }
+export const updateCV = async (req, res, next) => {
+    const { id } = req.params
+    try{
+        await Candidato.findByIdAndUpdate({ _id: id }, req.body)
+        res.status(200).send({ message: 'Candidato updated' })
+    }catch(e) {
+        console.error(e)
+    }
+}
 export const getOneCV = async (req, res, next) => {
     const { id } = req.params
     try{
@@ -213,8 +222,29 @@ export const addCsv = async (req, res, next) => {
     const file = req.file
     try{
         const newJson = await csvToJsonFromFile(file)
-        res.status(200).send(newJson)
+        const candidatos = newJson.map(candidato => {
+            const newCand = {
+                nombre: candidato.Candidato.nombre,
+                nacimiento: candidato.Candidato.fecha_nacimiento,
+                cpostal: candidato.Candidato.cpostal,
+                direccion: candidato.Candidato.direccion,
+                telefono: candidato.Candidato.telefono,
+                movil: candidato.Candidato.movil,
+                estudiosOld: candidato.Candidato.estudios,
+                provincia: candidato.Candidato.provincia,
+                puntuacionACS: candidato.Candidato.puntuacion,
+                dni: candidato.Candidato.NIF,
+                origen: 'csv'
+            }
+            return newCand
+        })
+        const inserted = await Candidato.insertMany(candidatos)
+        res.status(200).send(inserted)
     }catch(e) {
         console.error(e)
     }
+}
+export const deleteManyCandidato = async (req, res, next) => {
+    await Candidato.deleteMany({ origen: 'csv' })
+    res.status(200).send({ message: 'Deleted from csv origin' })
 }
