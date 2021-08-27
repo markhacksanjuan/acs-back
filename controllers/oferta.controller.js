@@ -21,3 +21,21 @@ export const getAllOfertas = async (req, res, next) => {
         console.error(e)
     }
 }
+export const getOneOferta = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        const oferta = await Oferta.findById({ _id: id })
+        res.status(200).send(oferta)
+    }catch(e){
+        console.error(e)
+    }
+}
+export const deleteOneOferta = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        await Oferta.findByIdAndRemove({ _id: id })
+        res.status(200).send({ mensaje: 'Oferta eliminada' })
+    }catch(e) {
+        console.error(e)
+    }
+}
