@@ -8,7 +8,8 @@ import { index,
     addFoto, 
     addCsv, 
     updateCV,
-    deleteManyCandidato } from '../controllers/cv.controller.js'
+    deleteManyCandidato,
+insertFromPage } from '../controllers/cv.controller.js'
 import  {uploadCloud}  from '../configs/cloudinary.config.js'
 import { uploadBuffer } from '../configs/bufferMulter.js'
 
@@ -24,5 +25,6 @@ router.get('/insertFromCsv', insertFromCsv)
 router.post('/addFoto/:id', uploadCloud.single('fotografia'), addFoto)
 router.post('/addCsv', uploadBuffer.single('csv'), addCsv)
 router.delete('/deleteCsv', deleteManyCandidato)
+router.post('/insertFromPage', insertFromPage)
 
 export default router

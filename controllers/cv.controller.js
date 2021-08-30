@@ -248,3 +248,6 @@ export const deleteManyCandidato = async (req, res, next) => {
     await Candidato.deleteMany({ origen: 'csv' })
     res.status(200).send({ message: 'Deleted from csv origin' })
 }
+export const insertFromPage = async (req, res, next) => {
+    res.status(200).send(req.body)
+}
