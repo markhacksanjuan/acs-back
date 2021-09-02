@@ -249,7 +249,23 @@ export const deleteManyCandidato = async (req, res, next) => {
     res.status(200).send({ message: 'Deleted from csv origin' })
 }
 export const insertFromPage = async (req, res, next) => {
-    console.log('he recibido datos')
     console.log(req.body)
+    const { dni, nombre, apellido1, apellido2, email, telefono, sexo, pais, provincia } = req.body
+    const { titulacion, especialidad, ultimoAno, comentarioEstudio } = req.body
+    const estudiosFinalizados = req.body.estudiosFinalizados === 'Si' ? true : false
+    console.log(estudiosFinalizados)
+    const candidato = {
+        dni,
+        nombre,
+        apellido1,
+        apellido2,
+        email,
+        telefono,
+        sexo,
+        pais,
+        provincia
+    }
+    // const nuevoCandidato = await Candidato.create(candidato)
+
     res.status(200).send(req.body)
 }
