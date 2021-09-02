@@ -249,16 +249,30 @@ export const deleteManyCandidato = async (req, res, next) => {
     res.status(200).send({ message: 'Deleted from csv origin' })
 }
 export const insertFromPage = async (req, res, next) => {
-    console.log(req.body)
+    console.log('insertFromPage')
     const { dni, nombre, apellido1, apellido2, email, telefono, sexo, pais, provincia } = req.body
+
     const { titulacion, especialidad, ultimoAno, comentarioEstudio } = req.body
     const estudiosFinalizados = req.body.estudiosFinalizados === 'Si' ? true : false
-    const { nombreEstudio, centro, desdeEstudio, hastaEstudio, horasEstudio, comentarioEstudio2 } = req.body
-    const { nombreEstudio2, centro2, desdeEstudio2, hastaEstudio2, horasEstudio2, comentarioEstudio2mas } = req.body
+
+    const { nombreEstudio, centro, horasEstudio, comentarioEstudio2 } = req.body
+    const desdeEstudio = new Date(req.body.desdeEstudio)
+    const hastaEstudio = new Date(req.body.hastaEstudio)
+
+    const { nombreEstudio2, centro2, horasEstudio2, comentarioEstudio2mas } = req.body
+    const desdeEstudio2 = new Date(req.body.desdeEstudio2)
+    const hastaEstudio2 = new Date(req.body.hastaEstudio2)
+
     const { idioma, nivelConversacion, nivelEscrito, nivelComprension, comentarioIdioma } = req.body
     const { idioma2, nivelConversacion2, nivelEscrito2, nivelComprension2, comentarioIdioma2 } = req.body
-    const { empresa, puesto, desdeExperiencia, hastaExperiencia, descripcion, } = req.body
-    const { empresa2, puesto2, desdeExperiencia2, hastaExperiencia2, descripcion2 } = req.body
+    const { empresa, puesto, descripcion, } = req.body
+    const desdeExperiencia = new Date(req.body.desdeExperiencia)
+    const hastaExperiencia = new Date(req.body.hastaExperiencia)
+
+    const { empresa2, puesto2, descripcion2 } = req.body
+    const desdeExperiencia2 = new Date(req.body.desdeExperiencia2)
+    const hastaExperiencia2 = new Date(req.body.hastaExperiencia2)
+
     const disponibilidadViajar = req.body.disponibilidadViajar === 'Si' ? true : false
     const cambioResidencia = req.body.cambioResidencia === 'Si' ? true : false
     const carnetConducir = req.body.carnetConducir === 'Si' ? true : false
@@ -279,42 +293,66 @@ export const insertFromPage = async (req, res, next) => {
     if(nuevoCandidato){
         const estudio = { titulacion, especialidad, ultimoAno, comentarioEstudio, estudiosFinalizados, candidato: nuevoCandidato._id }
         const estudio2 = { nombreEstudio, centro, desdeEstudio, hastaEstudio, horasEstudio, comentarioEstudio2, candidato: nuevoCandidato._id }
-        const estudio2mas = { nombreEstudio2, centro2, desdeEstudio2, hastaEstudio2, horasEstudio2, comentarioEstudio2mas, candidato: nuevoCandidato._id }
+        const estudio2mas = { nombreEstudio: nombreEstudio2,
+            centro: centro2,
+            desdeEstudio: desdeEstudio2,
+            hastaEstudio: hastaEstudio2,
+            horasEstudio: horasEstudio2,
+            comentarioEstudio2: comentarioEstudio2mas,
+            candidato: nuevoCandidato._id }
         const idioma1 = { idioma, nivelConversacion, nivelEscrito, nivelComprension, comentarioIdioma, candidato: nuevoCandidato._id }
-        const idioma2mas = { idioma2, nivelConversacion2, nivelEscrito2, nivelComprension2, comentarioIdioma2, candidato: nuevoCandidato._id }
+        const idioma2mas = { idioma: idioma2,
+            nivelConversacion: nivelConversacion2,
+            nivelEscrito: nivelEscrito2,
+            nivelComprension: nivelComprension2,
+            comentarioIdioma: comentarioIdioma2,
+            candidato: nuevoCandidato._id }
         const exp = { empresa, puesto, desdeExperiencia, hastaExperiencia, descripcion, candidato: nuevoCandidato._id }
-        const exp2 = { empresa2, puesto2, desdeExperiencia2, hastaExperiencia2, descripcion2, candidato: nuevoCandidato._id }
+        const exp2 = { empresa: empresa2,
+            puesto: puesto2,
+            desdeExperiencia: desdeExperiencia2,
+            hastaExperiencia: hastaExperiencia2,
+            descripcion: descripcion2,
+            candidato: nuevoCandidato._id }
         const otrosDatos = { disponibilidadViajar, cambioResidencia, carnetConducir, comentarioOtros, candidato: nuevoCandidato._id }
+
         const estudioCreado = await Estudio.create(estudio)
-        const estudio2Creado = await Estudio2.create(estudio2)
+        estudioCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios: estudioCreado._id }})
+        
+        // const estudio2Arr = [estudio2, estudio2mas]
+        // estudio2Arr.forEach(async estudio => {
+        //     const estudio2creado = await Estudio2.create(estudio)
+        //     estudio2creado && Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios2: estudio2creado._id}})
+        // })
+
+        // const idiomasArr = [idioma1, idioma2mas]
+        // idiomasArr.forEach(async idioma => {
+        //     const idiomaCreado = await Idioma.create(idioma)
+        //     idiomaCreado && Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { idiomas: idiomaCreado._id }})
+        // })
+
+        // const expArr = [exp, exp2]
+        // expArr.forEach(async exp => {
+        //     const expCreado = await Experiencia.create(exp)
+        //     expCreado && Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { experiencia: expCreado._id }})
+        // })
+
+        const estudio2creado = await Estudio2.create(estudio2)
         const estudio2masCreado = await Estudio2.create(estudio2mas)
-        const idioma1Creado = await Idioma.create(idioma1)
+        const idiomaCreado = await Idioma.create(idioma1)
         const idioma2masCreado = await Idioma.create(idioma2mas)
         const expCreado = await Experiencia.create(exp)
-        const exp2Creado = await Experiencia.create(exp2)
+        const exp2creado = await Experiencia.create(exp2)
         const otrosDatosCreado = await OtrosDatos.create(otrosDatos)
-        if(estudioCreado && estudio2Creado && idioma1Creado && expCreado && otrosDatosCreado) {
-            await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
-                estudios: estudioCreado._id,
-                estudios2: estudio2Creado._id,
-                idiomas: idioma1Creado._id,
-                experiencia: expCreado._id,
-                otrosDatos: otrosDatosCreado._id
-            }})
-            if(estudio2masCreado) {
-                await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
-                    estudios2: estudio2masCreado._id
-                }})
-            }else if (idioma2masCreado){
-                await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
-                    idiomas: idioma2masCreado._id
-                }})
-            }else if (exp2Creado) {
-                await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
-                    experiencia: exp2Creado._id
-                }})
-            }
-        }
+        console.log(otrosDatosCreado)
+
+        estudio2creado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios2: estudio2creado._id }})
+        estudio2masCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios2: estudio2masCreado._id }})
+        idiomaCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { idiomas: idiomaCreado._id }})
+        idioma2masCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { idiomas: idioma2masCreado._id }})
+        expCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { experiencia: expCreado._id }})
+        exp2creado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {experiencia: exp2creado._id }})
+        otrosDatosCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { otrosDatos: otrosDatosCreado._id }})
     }
 
     res.status(200).send({ message: 'CV creado correctamente' })
