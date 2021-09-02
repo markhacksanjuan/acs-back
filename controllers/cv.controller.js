@@ -253,7 +253,16 @@ export const insertFromPage = async (req, res, next) => {
     const { dni, nombre, apellido1, apellido2, email, telefono, sexo, pais, provincia } = req.body
     const { titulacion, especialidad, ultimoAno, comentarioEstudio } = req.body
     const estudiosFinalizados = req.body.estudiosFinalizados === 'Si' ? true : false
-    console.log(estudiosFinalizados)
+    const { nombreEstudio, centro, desdeEstudio, hastaEstudio, horasEstudio, comentarioEstudio2 } = req.body
+    const { nombreEstudio2, centro2, desdeEstudio2, hastaEstudio2, horasEstudio2, comentarioEstudio2mas } = req.body
+    const { idioma, nivelConversacion, nivelEscrito, nivelComprension, comentarioIdioma } = req.body
+    const { idioma2, nivelConversacion2, nivelEscrito2, nivelComprension2, comentarioIdioma2 } = req.body
+    const { empresa, puesto, desdeExperiencia, hastaExperiencia, descripcion, } = req.body
+    const { empresa2, puesto2, desdeExperiencia2, hastaExperiencia2, descripcion2 } = req.body
+    const disponibilidadViajar = req.body.disponibilidadViajar === 'Si' ? true : false
+    const cambioResidencia = req.body.cambioResidencia === 'Si' ? true : false
+    const carnetConducir = req.body.carnetConducir === 'Si' ? true : false
+    const { comentarioOtros } = req.body
     const candidato = {
         dni,
         nombre,
@@ -263,9 +272,50 @@ export const insertFromPage = async (req, res, next) => {
         telefono,
         sexo,
         pais,
-        provincia
+        provincia,
+        origen: 'web'
     }
-    // const nuevoCandidato = await Candidato.create(candidato)
+    const nuevoCandidato = await Candidato.create(candidato)
+    if(nuevoCandidato){
+        const estudio = { titulacion, especialidad, ultimoAno, comentarioEstudio, estudiosFinalizados, candidato: nuevoCandidato._id }
+        const estudio2 = { nombreEstudio, centro, desdeEstudio, hastaEstudio, horasEstudio, comentarioEstudio2, candidato: nuevoCandidato._id }
+        const estudio2mas = { nombreEstudio2, centro2, desdeEstudio2, hastaEstudio2, horasEstudio2, comentarioEstudio2mas, candidato: nuevoCandidato._id }
+        const idioma1 = { idioma, nivelConversacion, nivelEscrito, nivelComprension, comentarioIdioma, candidato: nuevoCandidato._id }
+        const idioma2mas = { idioma2, nivelConversacion2, nivelEscrito2, nivelComprension2, comentarioIdioma2, candidato: nuevoCandidato._id }
+        const exp = { empresa, puesto, desdeExperiencia, hastaExperiencia, descripcion, candidato: nuevoCandidato._id }
+        const exp2 = { empresa2, puesto2, desdeExperiencia2, hastaExperiencia2, descripcion2, candidato: nuevoCandidato._id }
+        const otrosDatos = { disponibilidadViajar, cambioResidencia, carnetConducir, comentarioOtros, candidato: nuevoCandidato._id }
+        const estudioCreado = await Estudio.create(estudio)
+        const estudio2Creado = await Estudio2.create(estudio2)
+        const estudio2masCreado = await Estudio2.create(estudio2mas)
+        const idioma1Creado = await Idioma.create(idioma1)
+        const idioma2masCreado = await Idioma.create(idioma2mas)
+        const expCreado = await Experiencia.create(exp)
+        const exp2Creado = await Experiencia.create(exp2)
+        const otrosDatosCreado = await OtrosDatos.create(otrosDatos)
+        if(estudioCreado && estudio2Creado && idioma1Creado && expCreado && otrosDatosCreado) {
+            await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
+                estudios: estudioCreado._id,
+                estudios2: estudio2Creado._id,
+                idiomas: idioma1Creado._id,
+                experiencia: expCreado._id,
+                otrosDatos: otrosDatosCreado._id
+            }})
+            if(estudio2masCreado) {
+                await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
+                    estudios2: estudio2masCreado._id
+                }})
+            }else if (idioma2masCreado){
+                await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
+                    idiomas: idioma2masCreado._id
+                }})
+            }else if (exp2Creado) {
+                await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: {
+                    experiencia: exp2Creado._id
+                }})
+            }
+        }
+    }
 
-    res.status(200).send(req.body)
+    res.status(200).send({ message: 'CV creado correctamente' })
 }
