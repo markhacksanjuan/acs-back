@@ -20,7 +20,7 @@ export const signup = async (req, res, next) => {
         if(role){
             await User.findByIdAndUpdate({ _id: user._id }, { role })
         }
-        res.send({ user, message: info })
+        res.status(200).send({ message: info })
     })(req, res, next)
 }
 
