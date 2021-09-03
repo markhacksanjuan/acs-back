@@ -8,7 +8,7 @@ passport.use(
     'signup',
     new LocalStrategy(
         {
-            usernameField: 'email',
+            usernameField: 'username',
             passwordField: 'password'
         },
         async (email, password, done) => {
