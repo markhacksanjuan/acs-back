@@ -11,15 +11,15 @@ passport.use(
             usernameField: 'username',
             passwordField: 'password'
         },
-        async (email, password, done) => {
+        async (username, password, done) => {
             try{
-                const userExists = await User.findOne({ email })
+                const userExists = await User.findOne({ username })
                 if(userExists){
-                    return done(null, false, { errorMessage: 'Email ya existe'})
+                    return done(null, false, { errorMessage: 'El usuario ya existe'})
                 }
                 const salt = await bcrypt.genSalt(10)
                 const hashedPwd = await bcrypt.hash(password, salt)
-                const user = await User.create({ email, password: hashedPwd })
+                const user = await User.create({ username, password: hashedPwd })
                 done(null, user, { message: 'User created successfully' })
             }catch(e){
                 console.error(e)
@@ -32,12 +32,12 @@ passport.use(
     'login',
     new LocalStrategy(
         {
-            usernameField: 'email',
+            usernameField: 'username',
             passwordField: 'password'
         },
-        async (email, password, done) => {
+        async (username, password, done) => {
             try{
-                const user = await User.findOne({ email })
+                const user = await User.findOne({ username })
                 if(!user){
                     return done(null, false, { errorMessage: 'User not found' })
                 }
