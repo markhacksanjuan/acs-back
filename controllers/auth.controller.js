@@ -1,11 +1,13 @@
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
+import User from '../models/user.model.js'
 
 export const index = (req, res, next) => {
     res.send('AUTH PAGE')
 }
 
 export const signup = async (req, res, next) => {
+    const { role } = req.body
     passport.authenticate('signup', async (err, user, info) => {
         if(err){
             res.status(500).send({ errorMessage: 'Algo ha ido mal con Signup' })
@@ -15,7 +17,10 @@ export const signup = async (req, res, next) => {
             res.send(info)
             return
         }
-        res.send(user)
+        if(role){
+            await User.findByIdAndUpdate({ _id: user._id }, { role })
+        }
+        res.send({ user, message: info })
     })(req, res, next)
 }
 
