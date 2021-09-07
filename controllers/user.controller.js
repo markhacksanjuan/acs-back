@@ -7,7 +7,7 @@ export const index = (req, res, next) => {
 
 export const getUsers = async (req, res, next) => {
     try{
-        const users = User.find({})
+        const users = await User.find({})
         res.status(200).send(users)
     }catch(e) {
         console.error(e)
@@ -17,7 +17,7 @@ export const getUsers = async (req, res, next) => {
 export const createUser = async (req, res, next) => {
     const { username, password, role } = req.body
     try{
-        const userExists = User.findOne({ username })
+        const userExists = await User.findOne({ username })
         if(userExists){
             res.send({ errorMessage: 'El usuario ya existe' })
         }
