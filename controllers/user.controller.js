@@ -1,6 +1,10 @@
 import User from '../models/user.model.js'
 import bcrypt from 'bcrypt'
 
+export const index = (req, res, next) => {
+    res.status(200).send('USER PAGE')
+}
+
 export const getUsers = async (req, res, next) => {
     try{
         const users = User.find({})
