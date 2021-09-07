@@ -7,3 +7,5 @@ router.get('/')
 router.get('/getUsers', getUsers)
 router.post('/createUser', createUser)
 router.patch('/editUser')
+
+export default router
