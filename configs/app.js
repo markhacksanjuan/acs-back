@@ -16,6 +16,7 @@ import estudio2 from '../routes/estudio2.routes.js'
 import experiencia from '../routes/exp.routes.js'
 import idioma from '../routes/idiomas.routes.js'
 import otrosDatos from '../routes/otrosDatos.routes.js'
+import users from '../routes/user.routes.js'
 
 import '../configs/passport.config.js'
 
@@ -45,5 +46,6 @@ app.use('/estudio2', estudio2)
 app.use('/exp', experiencia)
 app.use('/idioma', idioma)
 app.use('/otrosDatos', otrosDatos)
+app.use('/user', users)
 
 export default app
