@@ -7,6 +7,6 @@ router.get('/', index)
 router.get('/getUsers', getUsers)
 router.post('/createUser', createUser)
 router.patch('/editUser')
-router.get('getOneUser/:id', getOneUser)
+router.get('/getOneUser/:id', getOneUser)
 
 export default router
