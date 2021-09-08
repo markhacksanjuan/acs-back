@@ -33,3 +33,13 @@ export const createUser = async (req, res, next) => {
         console.error(e)
     }
 }
+
+export const getOneUser = async (req, res, next) => {
+    const { id } = req.params
+    try{
+        const user = await User.findById({ _id: id })
+        res.status(200).send(user)
+    }catch(e) {
+        console.error(e)
+    }
+}
