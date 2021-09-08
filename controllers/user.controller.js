@@ -43,3 +43,24 @@ export const getOneUser = async (req, res, next) => {
         console.error(e)
     }
 }
+
+export const updateUser = async (req, res, next) => {
+    const { id } = req.params
+    const user = req.body
+    try{
+        await User.findByIdAndUpdate({ _id: id }, req.body)
+        res.status(200).send({ message: 'Recruiter actualizado' })
+    }catch(e) {
+        console.error(e)
+    }
+}
+
+export const deleteUser = async (req, res, next) => {
+    const { id } = req.params
+    try{
+        await User.findByIdAndRemove({ _id: id })
+        res.status(200).send({ message: 'Recruiter eliminado correctamente' })
+    }catch(e) {
+        console.error(e)
+    }
+}
