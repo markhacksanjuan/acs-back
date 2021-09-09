@@ -251,7 +251,7 @@ export const deleteManyCandidato = async (req, res, next) => {
 export const insertFromPage = async (req, res, next) => {
     console.log('insertFromPage')
     const { dni, nombre, apellido1, apellido2, email, telefono, sexo, pais, provincia, tecnologias, foto } = req.body
-    console.log(foto)
+    console.log(req.body)
 
     const { titulacion, especialidad, ultimoAno, comentarioEstudio } = req.body
     const estudiosFinalizados = req.body.estudiosFinalizados === 'Si' ? true : false
