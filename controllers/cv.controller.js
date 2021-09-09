@@ -321,24 +321,6 @@ export const insertFromPage = async (req, res, next) => {
         const estudioCreado = await Estudio.create(estudio)
         estudioCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios: estudioCreado._id }})
         
-        // const estudio2Arr = [estudio2, estudio2mas]
-        // estudio2Arr.forEach(async estudio => {
-        //     const estudio2creado = await Estudio2.create(estudio)
-        //     estudio2creado && Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios2: estudio2creado._id}})
-        // })
-
-        // const idiomasArr = [idioma1, idioma2mas]
-        // idiomasArr.forEach(async idioma => {
-        //     const idiomaCreado = await Idioma.create(idioma)
-        //     idiomaCreado && Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { idiomas: idiomaCreado._id }})
-        // })
-
-        // const expArr = [exp, exp2]
-        // expArr.forEach(async exp => {
-        //     const expCreado = await Experiencia.create(exp)
-        //     expCreado && Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { experiencia: expCreado._id }})
-        // })
-
         const estudio2creado = await Estudio2.create(estudio2)
         const estudio2masCreado = await Estudio2.create(estudio2mas)
         const idiomaCreado = await Idioma.create(idioma1)
@@ -347,6 +329,7 @@ export const insertFromPage = async (req, res, next) => {
         const exp2creado = await Experiencia.create(exp2)
         const otrosDatosCreado = await OtrosDatos.create(otrosDatos)
         console.log(otrosDatosCreado)
+        console.log({estudio2creado, estudio2masCreado, idiomaCreado, expCreado})
 
         estudio2creado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios2: estudio2creado._id }})
         estudio2masCreado && await Candidato.findByIdAndUpdate({ _id: nuevoCandidato._id }, {$push: { estudios2: estudio2masCreado._id }})
