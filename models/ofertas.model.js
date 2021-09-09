@@ -8,10 +8,11 @@ const ofertaSchema = new Schema(
         puesto: String,
         ubicacion: String,
         titulacion: String,
-        tecnologias: [String],
+        tecnologias: String,
         experiencia: String,
-        idiomas: [String],
-        desplazamientos: String
+        idiomas: String,
+        desplazamientos: String,
+        jornada: String
     },
     {
         timestamps: true

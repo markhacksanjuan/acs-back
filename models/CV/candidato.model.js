@@ -47,7 +47,8 @@ const candidatoSchema = new Schema(
         telefono: String,
         movil: String,
         estudiosOld: String,
-        origen: String
+        origen: String,
+        tecnologias: String
     },
     {
         timestamps: true

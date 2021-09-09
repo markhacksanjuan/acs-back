@@ -1,5 +1,7 @@
 import Oferta from '../models/ofertas.model.js'
 
+import { csvToJsonFromFile } from '../middlewares/csvToJson.js'
+
 export const index = (req, res, next) => {
     res.status(200).send('OFFER PAGE')
 }
@@ -35,6 +37,31 @@ export const deleteOneOferta = async (req, res, next) => {
     try {
         await Oferta.findByIdAndRemove({ _id: id })
         res.status(200).send({ mensaje: 'Oferta eliminada' })
+    }catch(e) {
+        console.error(e)
+    }
+}
+
+export const createOfertasFromCsv = async (req, res, next) => {
+    const file = req.file
+    try{
+        const newJson = await csvToJsonFromFile(file)
+        const ofertas = newJson.map(oferta => {
+            const newOffer = {
+                idiomas: oferta.Idioma,
+                jornada: oferta.Jornada,
+                experiencia: oferta.Experiencia,
+                desplazamientos: oferta.desplazamientos,
+                servicio: oferta.servicio,
+                ubicacion: oferta.ubicacion,
+                puesto: oferta.puesto,
+                tecnologias: oferta.tecnologias,
+                titulacion: oferta.titulacion,
+            }
+            return newOffer
+        })
+        const inserted = await Oferta.insertMany(ofertas)
+        res.status(200).send(inserted)
     }catch(e) {
         console.error(e)
     }

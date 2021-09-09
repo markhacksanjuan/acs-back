@@ -250,7 +250,8 @@ export const deleteManyCandidato = async (req, res, next) => {
 }
 export const insertFromPage = async (req, res, next) => {
     console.log('insertFromPage')
-    const { dni, nombre, apellido1, apellido2, email, telefono, sexo, pais, provincia } = req.body
+    const { dni, nombre, apellido1, apellido2, email, telefono, sexo, pais, provincia, tecnologias, foto } = req.body
+    console.log(foto)
 
     const { titulacion, especialidad, ultimoAno, comentarioEstudio } = req.body
     const estudiosFinalizados = req.body.estudiosFinalizados === 'Si' ? true : false
@@ -287,7 +288,8 @@ export const insertFromPage = async (req, res, next) => {
         sexo,
         pais,
         provincia,
-        origen: 'web'
+        origen: 'web',
+        tecnologias
     }
     const nuevoCandidato = await Candidato.create(candidato)
     if(nuevoCandidato){
