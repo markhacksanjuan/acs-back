@@ -252,13 +252,16 @@ export const insertFromPage = async (req, res, next) => {
     console.log('insertFromPage')
     const { dni, nombre, apellido1, apellido2, email, telefono, sexo, pais, provincia, tecnologias, foto } = req.body
     console.log(req.body.desdeEstudio)
+    console.log(foto)
 
     // const { titulacion, especialidad, ultimoAno, comentarioEstudio } = req.body
     // const estudiosFinalizados = req.body.estudiosFinalizados === 'Si' ? true : false
 
     // const { nombreEstudio, centro, horasEstudio, comentarioEstudio2 } = req.body
-    // const desdeEstudio = new Date(req.body.desdeEstudio)
-    // const hastaEstudio = new Date(req.body.hastaEstudio)
+    const desdeEstudio = new Date(req.body.desdeEstudio)
+    const hastaEstudio = new Date(req.body.hastaEstudio)
+    console.log(desdeEstudio)
+    console.log(hastaEstudio)
 
     // const { nombreEstudio2, centro2, horasEstudio2, comentarioEstudio2mas } = req.body
     // const desdeEstudio2 = new Date(req.body.desdeEstudio2)
