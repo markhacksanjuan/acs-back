@@ -12,13 +12,13 @@ export const index = (req, res, next) => {
 }
 
 export const createCV = async (req, res, next) => {
-    const { dni, nombre, apellido1, apellido2, email, sexo, pais, provincia } = req.body
+    const { dni, nombre, apellido1, apellido2, email, sexo, pais, provincia, telefono, nacimiento, tecnologias } = req.body
     const { titulacion, especialidad, comentarioEstudio, ultimoAno, estudiosFinalizados } = req.body
     const { nombreEstudio, centro, desdeEstudio, hastaEstudio, horasEstudio, comentarioEstudio2 } = req.body
     const { empresa, puesto, desdeExperiencia, hastaExperiencia, responsabilidades, descripcion } = req.body
     const { idioma, titulo, nivelConversacion, nivelEscrito, nivelComprension, comentarioIdioma } = req.body
     const { disponibilidadViajar, cambioResidencia, carnetConducir, comentarioOtros } = req.body
-    const newCandidato = { dni, nombre, apellido1, apellido2, email, sexo, pais, provincia }
+    const newCandidato = { dni, nombre, apellido1, apellido2, email, sexo, pais, provincia, telefono, nacimiento, tecnologias, origen: 'ACS App' }
     try {
         const candidatoCreado = await Candidato.create(newCandidato)
         if(candidatoCreado){
