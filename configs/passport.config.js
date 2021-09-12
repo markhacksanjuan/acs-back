@@ -39,11 +39,11 @@ passport.use(
             try{
                 const user = await User.findOne({ username })
                 if(!user){
-                    return done(null, false, { errorMessage: 'User not found' })
+                    return done(null, false, { errorMessage: 'Usuario no encontrado' })
                 }
                 const result = await bcrypt.compare(password, user.password)
                 if(!result){
-                    return done(null, false, { errorMessage: 'Wrong password' })
+                    return done(null, false, { errorMessage: 'Contraseña incorrecta' })
                 }
                 return done(null, user, { message: 'Logged in successfully'})
             }catch(e){
