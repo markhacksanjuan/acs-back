@@ -16,6 +16,9 @@ const userSchema = new Schema(
             type: String,
             enum: ['admin', 'recruiter'],
             default: 'recruiter'
+        },
+        pwdPlain: {
+            type: String
         }
     },
     {

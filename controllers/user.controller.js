@@ -19,11 +19,11 @@ export const createUser = async (req, res, next) => {
     try{
         const userExists = await User.findOne({ username })
         if(userExists){
-            res.send({ errorMessage: 'El usuario ya existe' })
+            res.send({ errorMessage: 'El usuario ya existe. Introduce un nombre diferente' })
         }
         const salt = await bcrypt.genSalt(10)
         const hashedPwd = await bcrypt.hash(password, salt)
-        const user = await User.create({ username, password: hashedPwd, role })
+        const user = await User.create({ username, password: hashedPwd, role, pwdPlain: password })
         if(user){
             res.status(200).send({ message: 'User created successfully' })
         }else {
