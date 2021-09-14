@@ -41,6 +41,15 @@ export const deleteOneOferta = async (req, res, next) => {
         console.error(e)
     }
 }
+export const updateOferta = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        await Oferta.findByIdAndUpdate({ _id: id }, req.body)
+        res.status(200).send({ mensaje: 'Oferta actualizada' })
+    }catch(e) {
+        console.error(e)
+    }
+}
 
 export const createOfertasFromCsv = async (req, res, next) => {
     const file = req.file
