@@ -59,7 +59,7 @@ export const createOfertasFromCsv = async (req, res, next) => {
         .filter(oferta => {
             return oferta.puesto !== ''
         })
-        .map(oferta => {
+        .map(async oferta => {
             let idiomas = ofertas.idioma
             const newOffer = {
                 idiomas: oferta.Idioma,
