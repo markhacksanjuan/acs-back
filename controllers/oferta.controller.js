@@ -55,7 +55,11 @@ export const createOfertasFromCsv = async (req, res, next) => {
     const file = req.file
     try{
         const newJson = await csvToJsonFromFile(file)
-        const ofertas = newJson.map(oferta => {
+        const ofertas = newJson
+        .filter(oferta => {
+            return oferta.puesto !== ''
+        })
+        .map(oferta => {
             let idiomas = ofertas.idioma
             const newOffer = {
                 idiomas: oferta.Idioma,
