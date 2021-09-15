@@ -56,6 +56,7 @@ export const createOfertasFromCsv = async (req, res, next) => {
     try{
         const newJson = await csvToJsonFromFile(file)
         const ofertas = newJson.map(oferta => {
+            let idiomas = ofertas.idioma
             const newOffer = {
                 idiomas: oferta.Idioma,
                 jornada: oferta.Jornada,
@@ -67,10 +68,16 @@ export const createOfertasFromCsv = async (req, res, next) => {
                 tecnologias: oferta.tecnologias,
                 titulacion: oferta.titulacion,
             }
-            return newOffer
+            const existOffer = await Oferta.find({ puesto: newOffer.puesto })
+            let inserted
+            if(!existOffer) {
+                inserted = Oferta.insert(newOffer)
+                return
+            }
+            return inserted
         })
-        const inserted = await Oferta.insertMany(ofertas)
-        res.status(200).send(inserted)
+        // const inserted = await Oferta.insertMany(ofertas)
+        res.status(200).send(ofertas)
     }catch(e) {
         console.error(e)
     }
