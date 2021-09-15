@@ -1,6 +1,7 @@
 import Oferta from '../models/ofertas.model.js'
 
 import { csvToJsonFromFile } from '../middlewares/csvToJson.js'
+import { xlsToJsonFromFile } from '../middlewares/xlsToJson.js'
 
 export const index = (req, res, next) => {
     res.status(200).send('OFFER PAGE')
@@ -82,6 +83,23 @@ export const createOfertasFromCsv = async (req, res, next) => {
         // const inserted = await Oferta.insertMany(ofertas)
         res.status(200).send(ofertas)
     }catch(e) {
+        console.error(e)
+    }
+}
+export const createOfertasFromXls =  (req, res, next) => {
+    const file = req.file
+    try{
+        const newJsonArr =  xlsToJsonFromFile(file).Hoja1
+        const ofertas = newJsonArr.map(async oferta => {
+            const existOffer = await Oferta.findOne({ puesto: oferta.puesto })
+            let inserted
+            if(!existOffer){
+                inserted = await Oferta.create(oferta)
+                return inserted
+            }
+        })
+        res.status(200).send(ofertas)
+    }catch(e){
         console.error(e)
     }
 }
