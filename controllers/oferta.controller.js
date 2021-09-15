@@ -60,7 +60,6 @@ export const createOfertasFromCsv = async (req, res, next) => {
             return oferta.puesto !== ''
         })
         .map(async oferta => {
-            let idiomas = ofertas.idioma
             const newOffer = {
                 idiomas: oferta.Idioma,
                 jornada: oferta.Jornada,
@@ -72,14 +71,14 @@ export const createOfertasFromCsv = async (req, res, next) => {
                 tecnologias: oferta.tecnologias,
                 titulacion: oferta.titulacion,
             }
-            const existOffer = await Oferta.find({ puesto: newOffer.puesto })
+            const existOffer = await Oferta.findOne({ puesto: oferta.puesto })
             let inserted
             if(!existOffer) {
-                inserted = Oferta.insert(newOffer)
-                return
+                inserted = await Oferta.create(newOffer)
+                return inserted
             }
-            return inserted
         })
+        // console.log(ofertas)
         // const inserted = await Oferta.insertMany(ofertas)
         res.status(200).send(ofertas)
     }catch(e) {
