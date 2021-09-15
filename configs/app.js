@@ -28,12 +28,12 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(passport.initialize())
 app.use(cors())
-app.use(cors({
-    origin: [ 'http://localhost:3000', 'https://acs-back.vercel.app', 'http://localhost:3001'],
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Access-Control-Allow-Origin"],
+// app.use(cors({
+//     origin: [ 'http://localhost:3000', 'https://acs-back.vercel.app', 'http://localhost:3001'],
+//     methods: ["GET", "POST"],
+//     allowedHeaders: ["Access-Control-Allow-Origin"],
 
-}))
+// }))
 
 // Routes
 app.use('/', index)
