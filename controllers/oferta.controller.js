@@ -90,6 +90,7 @@ export const createOfertasFromXls =  (req, res, next) => {
     const file = req.file
     try{
         const newJsonArr =  xlsToJsonFromFile(file).Hoja1
+        console.log(newJsonArr)
         const ofertas = newJsonArr.map(async oferta => {
             const existOffer = await Oferta.findOne({ puesto: oferta.puesto })
             let inserted
