@@ -1,9 +1,10 @@
 import { Router } from 'express'
-import { updateCandidato
- } from '../controllers/candidato.controller.js'
+import { updateCandidato,
+ updateComentario} from '../controllers/candidato.controller.js'
 
  const router = Router()
 
- router.patch('/:id', updateCandidato)
+ router.patch('/info/:id', updateCandidato)
+ router.patch('/comentario/:id', updateComentario)
 
  export default router

@@ -61,6 +61,10 @@ export const createCV = async (req, res, next) => {
                     {
                         path: 'otrosDatos',
                         model: 'OtrosDatos'
+                    },
+                    {
+                        path: 'comentarioRecruiter',
+                        ref: 'Recruiter'
                     }
                 ])
                 res.status(200).send(candidato)
@@ -107,6 +111,10 @@ export const getCV = async (req, res, next) => {
                 {
                     path: 'otrosDatos',
                     model: 'OtrosDatos'
+                },
+                {
+                    path: 'comentarioRecruiter',
+                    ref: 'Recruiter'
                 }
             ])
         res.send(candidatos)
@@ -137,6 +145,10 @@ export const deleteCV = async (req, res, next) => {
             {
                 path: 'otrosDatos',
                 model: 'OtrosDatos'
+            },
+            {
+                path: 'comentarioRecruiter',
+                ref: 'Recruiter'
             }
         ])
         await Candidato.findByIdAndRemove({ _id: id })
@@ -202,6 +214,10 @@ export const getOneCV = async (req, res, next) => {
             {
                 path: 'otrosDatos',
                 model: 'OtrosDatos'
+            },
+            {
+                path: 'comentarioRecruiter',
+                model: 'Recruiter'
             }
         ])
         res.status(200).send(candidato)

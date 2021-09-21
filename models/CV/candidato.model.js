@@ -48,7 +48,12 @@ const candidatoSchema = new Schema(
         movil: String,
         estudiosOld: String,
         origen: String,
-        tecnologias: String
+        tecnologias: String,
+        comentarioRecruiter: {
+            type: Schema.Types.ObjectId,
+            ref: 'Recruiter'
+        },
+        estado: String
     },
     {
         timestamps: true

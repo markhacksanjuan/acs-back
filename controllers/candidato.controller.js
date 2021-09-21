@@ -17,3 +17,15 @@ cpostal, telefono, movil, tecnologias } = req.body
         console.error(e)
     }
 }
+export const updateComentario = async (req, res, next) => {
+    const { id } = req.params
+    const { comentarioRecruiter } = req.body
+    const candidato = { comentarioRecruiter }
+    console.log(candidato)
+    try{
+        await Candidato.findByIdAndUpdate({ _id: id }, candidato)
+        res.status(200).send({ message: 'Comentario actualizado' })
+    }catch(e) {
+        console.error(e)
+    }
+}

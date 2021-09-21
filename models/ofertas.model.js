@@ -12,7 +12,8 @@ const ofertaSchema = new Schema(
         experiencia: String,
         idiomas: String,
         desplazamientos: String,
-        jornada: String
+        jornada: String,
+        estado: String
     },
     {
         timestamps: true

@@ -17,6 +17,7 @@ import experiencia from '../routes/exp.routes.js'
 import idioma from '../routes/idiomas.routes.js'
 import otrosDatos from '../routes/otrosDatos.routes.js'
 import users from '../routes/user.routes.js'
+import recruiter from '../routes/recruiter.routes.js'
 
 import '../configs/passport.config.js'
 
@@ -47,5 +48,6 @@ app.use('/exp', experiencia)
 app.use('/idioma', idioma)
 app.use('/otrosDatos', otrosDatos)
 app.use('/user', users)
+app.use('/recruiter', recruiter)
 
 export default app
